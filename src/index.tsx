@@ -4,13 +4,13 @@ import "focus-visible";
 import "./tailwind.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ColorThemeProvider } from "./components/ColorThemeContext";
+import { ColorModeProvider } from "./components/ColorModeProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-    <ColorThemeProvider>
+    <ColorModeProvider>
       <App />
-    </ColorThemeProvider>
+    </ColorModeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
