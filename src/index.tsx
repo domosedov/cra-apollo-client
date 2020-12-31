@@ -5,12 +5,52 @@ import "./tailwind.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ColorModeProvider } from "./components/ColorModeProvider";
+import {
+  ApolloClient,
+  ApolloProvider,
+  gql,
+  InMemoryCache,
+  makeVar,
+} from "@apollo/client";
+
+const typeDefs = gql`
+  extend type Query {
+    isAdmin: Boolean!
+  }
+`;
+
+const apolloClient = new ApolloClient({
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          isAdmin: {
+            read() {
+              return true;
+            },
+          },
+          someText: {
+            read() {
+              return "Some text";
+            },
+          },
+        },
+      },
+    },
+  }),
+  typeDefs,
+  connectToDevTools: true,
+});
+
+export const isAdminVar = makeVar(false);
 
 ReactDOM.render(
   <React.StrictMode>
-    <ColorModeProvider>
-      <App />
-    </ColorModeProvider>
+    <ApolloProvider client={apolloClient}>
+      <ColorModeProvider>
+        <App />
+      </ColorModeProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
